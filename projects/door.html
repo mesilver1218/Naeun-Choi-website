@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="LiDAR-inertial mapping and vision-based door-handle localization for a mobile manipulation task."><title>Perception and Navigation System for Robotic Door Opening — Naeun Choi</title><link rel="stylesheet" href="style.css"></head>
+<body style="--light:#f2e9da;--dark:#907853">
+<header class="top"><div class="shell nav"><a class="brand" href="../index.html#home">Naeun Choi<span>.</span></a><nav class="navlinks"><a href="../index.html#home">Home</a><a href="../index.html#research">Research</a><a href="../index.html#publications">Publications</a><a href="../index.html#cv">CV</a></nav></div></header>
+<main class="shell"><a class="back" href="../index.html#research">← Back to Research &amp; Projects</a>
+<section class="page-hero"><div><p class="eyebrow">SUMMER RESEARCH INTERNSHIP · JUN 2024 – AUG 2024</p><h1>Perception and Navigation System for Robotic Door Opening</h1><p class="lab">Humanoid Robotics Lab · KIST</p><div class="tags"><span class="tag">SLAM</span><span class="tag">Object Detection</span><span class="tag">6D Pose Estimation</span></div></div><div class="heroart"><span class="big-no">03</span><div class="artcopy">LiDAR-inertial mapping and vision-based door-handle localization for a mobile manipulation task.</div></div></section>
+<div class="flow"><span>LiDAR / camera</span><b>→</b><span>3D SLAM</span><b>→</b><span>Handle detection</span><b>→</b><span>6D pose estimation</span></div>
+<section class="main-grid"><div><p class="sectionlabel">Overview</p><p class="body-copy">As a summer research intern at the KIST Humanoid Robotics Lab, I developed mapping, navigation and camera-perception components for a door-opening task targeting a wheeled humanoid robot. The system needed to represent the surrounding indoor space while also identifying the relatively small door handle and estimating its spatial pose.</p><p class="body-copy">I connected a 3D LiDAR-based mapping workflow to a 2D navigation representation, then developed a custom door-handle detection dataset from videos I recorded myself, trained and refined YOLOv7, and integrated FoundationPose for 6D pose estimation. Simulation was used to evaluate the SLAM and navigation components; the camera-perception pipeline was developed using the collected image dataset. These components formed parts of the larger door-opening pipeline, rather than a claim that the entire manipulation task was autonomously completed.</p><p class="keyline">3D SLAM with PCD mapping, 2D occupancy-grid navigation, and 6D handle pose estimation.</p></div><div><p class="sectionlabel">Method &amp; Implementation</p><ul class="worklist"><li><strong>3D Mapping and 2D Navigation</strong>Built Fast-LIO2-based 3D PCD maps and converted them to 2D occupancy grids for navigation. Switched to HDL localization after Fast-LIO2 relocalization diverged near narrow corners; simulation evaluated SLAM and navigation only.</li><li><strong>Custom Door-Handle Dataset</strong>Recorded door-handle videos and extracted frames; manually labeled the first several dozen samples, auto-labeled approximately 1,100 in Roboflow, reviewed annotations, and augmented the dataset to 12,063 annotated images.</li><li><strong>YOLOv7 Training and Refinement</strong>Trained YOLOv7 on the custom dataset and reduced false positives by introducing background images; the gallery presents the final model's Precision–Recall graph.</li><li><strong>6D Pose Estimation</strong>Prepared model assets for the three door-handle types in the target indoor environment using CAD models provided by other team members. In Blender, I extracted point clouds, downsampled them to a suitable density, and added UV mapping for reflective surface appearance. Using the prepared assets, I verified real-time FoundationPose inference from live RGB and depth camera streams without additional fine-tuning.</li></ul></div></section><section class="results"><p class="sectionlabel">Validation &amp; Context</p><p>The internship involved 3D LiDAR mapping, conversion to an occupancy-grid navigation map, and a change from Fast-LIO2-based relocalization to HDL-based localization after instability in narrow corners. Gazebo simulation was used for SLAM and navigation evaluation, not for the door-handle perception experiments. I created a custom dataset from recorded videos, used Roboflow-assisted annotation and augmentation to obtain 12,063 annotated images, trained YOLOv7, and addressed false positives with background data. The gallery includes the final model's Precision–Recall graph and a FoundationPose-based 6D pose-estimation demonstration.</p><p>The public page describes these individual subsystem contributions, not a verified end-to-end door-opening success rate.</p></section>
+<section class="gallery-section" id="media"><div class="sectionhead"><div><p class="sectionlabel">Visual Archive</p><h2>Photos &amp; Videos</h2></div></div>
+  <div class="door-category" id="door-object-detection"><h3 class="door-category-title">Object Detection</h3><div class="media-grid" data-door-gallery="detection"></div></div>
+  <div class="door-category" id="door-6d-pose"><h3 class="door-category-title">Object 6D Pose Estimation</h3><div class="media-grid" data-door-gallery="pose"></div></div>
+  <div class="door-category" id="door-slam-nav"><h3 class="door-category-title">SLAM &amp; Navigation</h3><div class="media-grid" data-door-gallery="navigation"></div></div>
+  <a class="resource-link" href="../index.html#publications">Publications &amp; CV ↗</a></section>
+</main><footer class="footer"><div class="shell foot"><span>© 2026 Naeun Choi · Updated November 2026</span><span>Research · Robotics · Embodied AI</span></div></footer>
+<script src="../assets/media-gallery.js"></script>
+<script>
+const mediaId='door';
+const doorGroups={
+  detection:new Set(['07_yolo_dataset.png','08_yolo_precision_recall.png']),
+  pose:new Set(['06_uvmap.png','09_foundationpose.mp4'])
+};
+const galleries={
+  detection:document.querySelector('[data-door-gallery="detection"]'),
+  pose:document.querySelector('[data-door-gallery="pose"]'),
+  navigation:document.querySelector('[data-door-gallery="navigation"]')
+};
+function addDoorMedia(item,grid){
+  const figure=document.createElement('figure');
+  figure.className='media-figure';
+  const element=document.createElement(item.kind==='video'?'video':'img');
+  element.src=item.src;
+  if(item.kind==='video'){
+    element.controls=true;
+    element.preload='metadata';
+    element.playsInline=true;
+    element.setAttribute('aria-label',item.caption);
+  }else{
+    element.alt=item.caption;
+    element.loading='lazy';
+  }
+  const caption=document.createElement('figcaption');
+  caption.textContent=item.caption;
+  figure.append(element,caption);
+  grid.appendChild(figure);
+}
+async function loadGallery(){
+  const media=await window.NaeunMedia.list(mediaId,'../assets/media/');
+  if(!media.length){
+    document.querySelectorAll('.door-category').forEach(section=>section.hidden=true);
+    return;
+  }
+  media.forEach(item=>{
+    const group=doorGroups.detection.has(item.name)?'detection':doorGroups.pose.has(item.name)?'pose':'navigation';
+    addDoorMedia(item,galleries[group]);
+  });
+  document.querySelectorAll('.door-category').forEach(section=>{
+    const grid=section.querySelector('.media-grid');
+    section.hidden=!grid.children.length;
+  });
+}
+loadGallery();
+</script></body></html>

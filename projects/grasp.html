@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="DQN-based action selection for manipulating cluttered objects with a robotic arm."><title>Reinforcement Learning-Based Pushing and Grasping Policy — Naeun Choi</title><link rel="stylesheet" href="style.css"></head>
+<body style="--light:#f4e4dc;--dark:#ab7b62">
+<header class="top"><div class="shell nav"><a class="brand" href="../index.html#home">Naeun Choi<span>.</span></a><nav class="navlinks"><a href="../index.html#home">Home</a><a href="../index.html#research">Research</a><a href="../index.html#publications">Publications</a><a href="../index.html#cv">CV</a></nav></div></header>
+<main class="shell"><a class="back" href="../index.html#research">← Back to Research &amp; Projects</a>
+<section class="page-hero"><div><p class="eyebrow">CAPSTONE DESIGN · JAN 2024 – JUN 2024</p><h1>Reinforcement Learning-Based Pushing and Grasping Policy</h1><p class="lab">Kwangwoon University</p><div class="tags"><span class="tag">Deep Q-Network</span><span class="tag">Pushing &amp; Grasping</span><span class="tag">Sim-to-Real</span></div></div><div class="heroart"><span class="big-no">05</span><div class="artcopy">DQN-based action selection for manipulating cluttered objects with a robotic arm.</div></div></section>
+<div class="flow"><span>RGB-D heightmap</span><b>→</b><span>Push / grasp Q-maps</span><b>→</b><span>Action selection</span><b>→</b><span>Robot execution</span></div>
+<section class="main-grid"><div><p class="sectionlabel">Overview</p><p class="body-copy">This capstone investigated robotic manipulation in cluttered environments, where grasping a desired object can fail because nearby objects obstruct the gripper. Rather than treating pushing and grasping as unrelated scripted actions, our team built a reinforcement-learning policy that could choose between moving an obstacle and attempting a grasp.</p><p class="body-copy">We trained the policy in a Gazebo environment and subsequently tested the learned approach on a physical Doosan M0609 6-DOF robot arm with a two-finger gripper. The policy was trained in simulation and evaluated in real-world robotic experiments, providing a concrete Sim-to-Real workflow.</p><p class="keyline">Learning when to push and when to grasp in cluttered scenes.</p></div><div><p class="sectionlabel">Method &amp; Implementation</p><ul class="worklist"><li><strong>RGB-D and DQN Action Values</strong>Constructed color/depth heightmaps and used separate pushing and grasping networks to evaluate pixel-wise Q-values across 16 action orientations.</li><li><strong>Push and Grasp Actions</strong>Selected between approximately 10 cm pushing primitives to clear clutter and grasping actions to retrieve objects.</li><li><strong>Sim-to-Real Validation</strong>Trained the policy in Gazebo and evaluated it on a physical Doosan M0609 6-DOF arm, including successful first-trial grasps of unseen objects.</li></ul></div></section><section class="results"><p class="sectionlabel">Validation &amp; Context</p><p>The policy was trained and evaluated in simulation, then exercised on a real robot in corresponding physical setups, demonstrating grasping behavior on objects not previously encountered during training. The gallery shows successful first-trial grasps of previously unseen objects (a butter-waffle package, a hairband, and another novel object), as well as a separate pushing example in a cluttered-object scene.</p><p>No unverified grasp-success percentage is claimed here; this public summary focuses on policy structure, the action-selection mechanism, and physical validation.</p></section>
+<section class="gallery-section" id="media"><div class="sectionhead"><div><p class="sectionlabel">Visual Archive</p><h2>Photos &amp; Videos</h2></div></div><div class="media-grid" id="media-grid"><div class="empty-media" id="empty"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m5 17 5-5 3 3 3-3 3 4"/></svg><strong>Media Will Appear Here</strong><p>Experiment photos and videos will be added as they become available.</p></div></div><a class="resource-link" href="../index.html#publications">Publications &amp; CV ↗</a></section>
+</main><footer class="footer"><div class="shell foot"><span>© 2026 Naeun Choi · Updated November 2026</span><span>Research · Robotics · Embodied AI</span></div></footer>
+<script src="../assets/media-gallery.js"></script>
+<script>
+const mediaId='grasp';
+const grid=document.getElementById('media-grid');
+async function loadGallery(){
+ const media=await window.NaeunMedia.list(mediaId,'../assets/media/');
+ if(!media.length)return;
+ grid.replaceChildren();
+ media.forEach((item,index)=>{
+  const f=document.createElement('figure');
+  f.className='media-figure';
+  const el=document.createElement(item.kind==='video'?'video':'img');
+  el.src=item.src;
+  if(item.kind==='video'){el.controls=true;el.preload='metadata';el.playsInline=true;}
+  else{el.alt=item.caption||('Photo '+(index+1));el.loading='lazy';}
+  const caption=document.createElement('figcaption');
+  caption.textContent=item.caption;
+  f.append(el,caption);grid.append(f);
+ });
+}
+loadGallery();
+</script></body></html>

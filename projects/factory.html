@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Making six sensor–actuator systems work reliably together on a microcontroller."><title>Embedded Smart Factory System — Naeun Choi</title><link rel="stylesheet" href="style.css"></head>
+<body style="--light:#dfebec;--dark:#607f86">
+<header class="top"><div class="shell nav"><a class="brand" href="../index.html#home">Naeun Choi<span>.</span></a><nav class="navlinks"><a href="../index.html#home">Home</a><a href="../index.html#research">Research</a><a href="../index.html#publications">Publications</a><a href="../index.html#cv">CV</a></nav></div></header>
+<main class="shell"><a class="back" href="../index.html#research">← Back to Research &amp; Projects</a>
+<section class="page-hero"><div><p class="eyebrow">ROBOTICS LABORATORY III · MAR 2023 – JUN 2023</p><h1>Embedded Smart Factory System</h1><p class="lab">Kwangwoon University</p><div class="tags"><span class="tag">ATmega128</span><span class="tag">Timer &amp; Interrupt Debugging</span><span class="tag">Sensor–Actuator Integration</span></div></div><div class="heroart"><span class="big-no">07</span><div class="artcopy">Making six sensor–actuator systems work reliably together on a microcontroller.</div></div></section>
+<div class="flow"><span>Sensor readings</span><b>→</b><span>Timer / interrupt logic</span><b>→</b><span>PWM + state rules</span><b>→</b><span>Coordinated actions</span></div>
+<section class="main-grid"><div><p class="sectionlabel">Overview</p><p class="body-copy">This embedded-systems team project aimed to integrate multiple independent sensor and actuator functions into a single functioning smart-factory prototype on an ATmega128 microcontroller. The main difficulty was ensuring that every subsystem could operate reliably in combination, rather than only working in isolation.</p><p class="body-copy">The finished system combined environmental and proximity sensing, automated responses, and user-facing indicators, creating a small example of real-time embedded integration and fault isolation.</p><p class="keyline">System-level reliability from interrupt timing and coordinated sensor–actuator behavior.</p></div><div><p class="sectionlabel">Method &amp; Implementation</p><ul class="worklist"><li><strong>Sensor–Actuator Integration</strong>Coordinated six factory functions, including conveyor motion, automated curtains, environmental sensing, alerts, and status displays on ATmega128.</li><li><strong>Embedded Peripherals</strong>Used ADC, PWM, USART, timers, and interrupt-based control to connect multiple sensors and actuators.</li><li><strong>System-Level Debugging</strong>Resolved integrated-system freezes caused by conflicting timer/interrupt settings, including an unnecessary Timer 3 interrupt enable.</li></ul></div></section><section class="results"><p class="sectionlabel">Validation &amp; Context</p><p>Demonstrated six coordinated sensor–actuator subsystems on a physical smart-factory prototype. The project illustrated that integrating independently working embedded modules requires managing shared clocks, timers, interrupts, and state transitions across the entire system.</p><p>My documented work included ATmega128 software integration, peripheral configuration, and system-level troubleshooting.</p></section>
+<section class="gallery-section" id="media"><div class="sectionhead"><div><p class="sectionlabel">Visual Archive</p><h2>Photos &amp; Videos</h2></div></div><div class="media-grid" id="media-grid"><div class="empty-media" id="empty"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m5 17 5-5 3 3 3-3 3 4"/></svg><strong>Media Will Appear Here</strong><p>Experiment photos and videos will be added as they become available.</p></div></div><a class="resource-link" href="../index.html#publications">Publications &amp; CV ↗</a></section>
+</main><footer class="footer"><div class="shell foot"><span>© 2026 Naeun Choi · Updated November 2026</span><span>Research · Robotics · Embodied AI</span></div></footer>
+<script src="../assets/media-gallery.js"></script>
+<script>
+const mediaId='factory';
+const grid=document.getElementById('media-grid');
+async function loadGallery(){
+ const media=await window.NaeunMedia.list(mediaId,'../assets/media/');
+ if(!media.length)return;
+ grid.replaceChildren();
+ media.forEach((item,index)=>{
+  const f=document.createElement('figure');
+  f.className='media-figure';
+  const el=document.createElement(item.kind==='video'?'video':'img');
+  el.src=item.src;
+  if(item.kind==='video'){el.controls=true;el.preload='metadata';el.playsInline=true;}
+  else{el.alt=item.caption||('Photo '+(index+1));el.loading='lazy';}
+  const caption=document.createElement('figcaption');
+  caption.textContent=item.caption;
+  f.append(el,caption);grid.append(f);
+ });
+}
+loadGallery();
+</script></body></html>
